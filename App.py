@@ -1,5 +1,5 @@
 import streamlit as st
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageFilter
 import numpy as np
 import io
 
@@ -67,6 +67,10 @@ def process_image(image, cols):
     aspect_ratio = height / width
     new_width = cols
     new_height = int(aspect_ratio * new_width)
+
+    # Slightly blur to reduce color noise before downscaling
+    img = img.filter(ImageFilter.GaussianBlur(radius=1))
+
     resized = img.resize((new_width, new_height), Image.NEAREST)
 
     # Map to fixed color palette
